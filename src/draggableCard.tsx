@@ -26,7 +26,13 @@ interface DragItem {
   type: string;
 }
 
-export const DraggableCard: FC<CardProps> = ({ id, text, index, moveCard, deleteCard }) => {
+export const DraggableCard: FC<CardProps> = ({
+  id,
+  text,
+  index,
+  moveCard,
+  deleteCard,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.CARD,
@@ -103,8 +109,7 @@ export const DraggableCard: FC<CardProps> = ({ id, text, index, moveCard, delete
       <CoreCard>
         <CardGrid>
           <CardLabel>{text}</CardLabel>
-          {/* @ts-expect-error */}
-          <IconButton onClick={deleteCard}>
+          <IconButton aria-labelledby="a" onClick={deleteCard}>
             <Icon glyph="Trash" />
           </IconButton>
         </CardGrid>

@@ -26,26 +26,26 @@ export interface ContainerState {
 }
 
 export const Container: React.FC<Props> = (props) => {
-    const renderCard = (card: { id: number; text: string }, index: number) => {
-      return (
-        <DraggableCard
-          key={card.id}
-          index={index}
-          id={card.id}
-          text={card.text}
-          moveCard={props.move}
-          deleteCard={() => {
-            props.deselect(index);
-          }}
-        />
-      );
-    };
-
+  const renderCard = (card: { id: number; text: string }, index: number) => {
     return (
-      <>
-        <div style={style}>
-          {props.selected.map((card, i) => renderCard(card, i))}
-        </div>
-      </>
+      <DraggableCard
+        key={card.id}
+        index={index}
+        id={card.id}
+        text={card.text}
+        moveCard={props.move}
+        deleteCard={() => {
+          props.deselect(index);
+        }}
+      />
     );
+  };
+
+  return (
+    <>
+      <div style={style}>
+        {props.selected.map((card, i) => renderCard(card, i))}
+      </div>
+    </>
+  );
 };

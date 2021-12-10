@@ -4,19 +4,36 @@ import { Breadcrumb } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 import "./App.css";
 import "./cpu";
-import { CpuChart } from "./cpu";
-import { NetworkChart } from "./network";
-import { OplogChart } from "./oplog";
+import { ChartArea } from "./chartArea";
 import { SettingsMenu } from "./menu";
-import { OpcountersChart } from "./opcounters";
+import { SelectedChartsContext } from "./selectedCharts";
 import { H2 } from "@leafygreen-ui/typography";
 import { Tab, Tabs } from "@leafygreen-ui/tabs";
 import Badge from "@leafygreen-ui/badge";
+import { useState } from "react";
 
 function App() {
+  const [selectedCharts, setSelected] = useState([
+    {
+      id: 8,
+      text: "Process CPU",
+    },
+    {
+      id: 10,
+      text: "System Network",
+    },
+    {
+      id: 7,
+      text: "Oplog GB/Hour",
+    },
+    {
+      id: 5,
+      text: "Opcounters",
+    },
+  ]);
   return (
     <StyledDiv>
-      <StyledSidenav>
+      <StyledSidenav aria-labelledby="a">
         <SideNavItem>Projects</SideNavItem>
         <SideNavItem>Alerts</SideNavItem>
         <SideNavItem>Activity Feed</SideNavItem>
@@ -25,40 +42,40 @@ function App() {
         <SideNavItem>Access Manager</SideNavItem>
         <SideNavItem>Support</SideNavItem>
       </StyledSidenav>
-      <MainArea>
-        <StyledBreadcrumb>
-          <BreadcrumbItem>
-            <a href="#">Cloud Dev Backing DBs</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <a href="#">Cloud-Dev</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <a href="#">AppDB_1</a>
-          </BreadcrumbItem>
-        </StyledBreadcrumb>
-        <p>
+      <SelectedChartsContext.Provider value={{ selectedCharts, setSelected }}>
+        <MainArea>
+          <StyledBreadcrumb>
+            <BreadcrumbItem>
+              <a href="#">Cloud Dev Backing DBs</a>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <a href="#">Cloud-Dev</a>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <a href="#">AppDB_1</a>
+            </BreadcrumbItem>
+          </StyledBreadcrumb>
           {/* @ts-expect-error */}
           <StyledH2>db-dev-5.us-east-1.aws.cloud-dev.10gen.cc:27201</StyledH2>
           <StyledBadge variant="darkgray">Primary</StyledBadge>
-        </p>
-        <Tabs aria-labelledby="1">
-          <Tab name="Overview"></Tab>
-          <Tab name="MongoDB Metrics"></Tab>
-          <Tab name="Hardware Metrics"></Tab>
-          <Tab name="DB-Level Metrics"></Tab>
-          <Tab name="Real-Time Stats"></Tab>
-          <Tab name="Performance Profiler"></Tab>
-          <Tab name="Performance Advisor"></Tab>
-        </Tabs>
-        <div className="App">
-          <CpuChart />
-          <NetworkChart />
-          <OplogChart />
-          <OpcountersChart />
-        </div>
-        <SettingsMenu />
-      </MainArea>
+          <Tabs aria-labelledby="1">
+            <Tab name="Overview"></Tab>
+            <Tab name="MongoDB Metrics"></Tab>
+            <Tab name="Hardware Metrics"></Tab>
+            <Tab name="DB-Level Metrics"></Tab>
+            <Tab name="Real-Time Stats"></Tab>
+            <Tab name="Performance Profiler"></Tab>
+            <Tab name="Performance Advisor"></Tab>
+          </Tabs>
+          <div className="App">
+            <ChartArea />
+          </div>
+          <SettingsMenu
+            selectedCharts={selectedCharts}
+            setSelected={setSelected}
+          />
+        </MainArea>
+      </SelectedChartsContext.Provider>
     </StyledDiv>
   );
 }

@@ -15,36 +15,23 @@ import {
 import Toggle from "@leafygreen-ui/toggle";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Container } from "./container";
+import { Container, Item } from "./container";
 import SelectSearch, {
   fuzzySearch,
   SelectSearchOption,
 } from "react-select-search";
 import { chartOptions } from "./availableCharts";
-import { useState } from "react";
 import update from "immutability-helper";
 
-interface Props {}
+interface Props {
+  selectedCharts: Item[];
+  setSelected: (i: Item[]) => void;
+}
 
-export const SettingsMenu: React.FC<Props> = () => {
-  const [selectedCharts, setSelected] = useState([
-    {
-      id: 8,
-      text: "Process CPU",
-    },
-    {
-      id: 10,
-      text: "System Network",
-    },
-    {
-      id: 7,
-      text: "Oplog GB/Hour",
-    },
-    {
-      id: 5,
-      text: "Opcounters",
-    },
-  ]);
+export const SettingsMenu: React.FC<Props> = ({
+  selectedCharts,
+  setSelected,
+}) => {
   const deleteCard = (index: number) => {
     setSelected(
       selectedCharts.slice(0, index).concat(selectedCharts.slice(index + 1))
@@ -64,7 +51,7 @@ export const SettingsMenu: React.FC<Props> = () => {
 
   const triggerButton = (
     /* @ts-expect-error */
-    <FloatingButton>
+    <FloatingButton aria-labelledby="a">
       <Wrench />
     </FloatingButton>
   );
@@ -116,7 +103,7 @@ export const SettingsMenu: React.FC<Props> = () => {
             <SegmentedControlOption value="3">High</SegmentedControlOption>
           </SegmentedControl>
           <FormLabel htmlFor={""}>Annotations:</FormLabel>
-          <AnnotationsToggle size="small" aria-labelledby="" />
+          <AnnotationsToggle size="small" aria-labelledby="a" />
         </Form>
         <FormLabel htmlFor={""}>Selected Charts:</FormLabel>
         <br />

@@ -31,7 +31,7 @@ export const OplogChart: React.FC<Props> = () => {
       oplog: realData?.[0]?.["oplog gb/hour"]?.[i],
     });
   }
-  console.log(toPlot)
+  console.log(toPlot);
 
   const dateFormatter = (value: number) => {
     return new Date(value).toLocaleTimeString();

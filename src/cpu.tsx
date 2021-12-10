@@ -147,7 +147,9 @@ const CpuTooltip: React.FC<TooltipProps<number, number>> = (props) => {
           <div>User: {props.payload?.[0]?.value?.toPrecision(4)}%</div>
           <div>Kernel: {props.payload?.[1]?.value?.toPrecision(4)}%</div>
           <div>Children User: {props.payload?.[2]?.value?.toPrecision(4)}%</div>
-          <div>Children Kernel: {props.payload?.[3]?.value?.toPrecision(4)}%</div>
+          <div>
+            Children Kernel: {props.payload?.[3]?.value?.toPrecision(4)}%
+          </div>
           <div>{new Date(props.label).toLocaleTimeString()}</div>
         </StyledCard>
       </>
